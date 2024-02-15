@@ -2,6 +2,10 @@
 ```
 pip install django
 pip install djangorestframework
+pip install djangorestframework-simplejwt
+pip install python-dotenv
+pip install mozilla-django-oidc
+pip install mysql-connector-python
 ```
 
 - Link: 

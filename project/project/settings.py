@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Third Party Apps
+    'rest_framework',
+    'mozilla_django_oidc',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +55,26 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# OIDC Configuration
+OIDC_RP_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+OIDC_RP_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
+OIDC_OP_AUTHORIZATION_ENDPOINT = 'https://accounts.google.com/o/oauth2/auth'
+OIDC_OP_TOKEN_ENDPOINT = 'https://accounts.google.com/o/oauth2/token'
+OIDC_OP_USER_ENDPOINT = 'https://www.googleapis.com/oauth2/v3/userinfo'
+OIDC_RP_SIGN_ALGO = 'RS256'
+OIDC_USE_NONCE = False 
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+
+# Use Django Rest Framework for permissions and authentication
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
+    ),
+}
 
 
 ROOT_URLCONF = 'project.urls'
@@ -74,12 +101,28 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# MYSQL DB
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': 'drf_mozilla_django_oidc_db',
+        'ENGINE': 'mysql.connector.django',   # 'django.db.backends.mysql'
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': 3306,
+        'OPTIONS': {
+            'autocommit': True,
+        },
     }
 }
+
 
 
 # Password validation
