@@ -78,11 +78,13 @@ OIDC_USE_NONCE = False
 # OIDC_RP_SCOPES = ['openid', 'profile', 'email']
 # mozilla-django-oidc Settings
 OIDC_RP_SCOPES = 'openid profile email'
+# OIDC_EXTRA_SCOPES = ['openid', 'profile', 'email']
+
 
 # Add scopes for getting user information
-# OIDC_AUTH_REQUEST_EXTRA_PARAMS = {
-#     'scope': 'openid email profile'
-# }
+OIDC_AUTH_REQUEST_EXTRA_PARAMS = {
+    'scope': 'openid email profile'
+}
 LOGIN_REDIRECT_URL = 'http://127.0.0.1:8000/accounts/user-infor/'
 # LOGIN_REDIRECT_URL = 'http://127.0.0.1:8000/oidc/callback/' # This is the official redirect used by google
 # LOGOUT_REDIRECT_URL = 'http://127.0.0.1:8000/logout'

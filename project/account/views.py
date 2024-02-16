@@ -1,7 +1,7 @@
 from django.contrib.auth import login
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
-from .models import Customer
+from .models import Customer, UserProfile
 from rest_framework.response import Response
 from django.http import HttpResponse
 from .serializers import serialize_user
@@ -51,7 +51,7 @@ class MyOIDCAB(OIDCAuthenticationBackend):
         user.first_name = claims.get('given_name', '')
         user.last_name = claims.get('family_name', '')
         user.save()
-    
+
     def get(user, claims):
         given_name = claims.get('given_name', '')
         serialized_user = serialize_user(user)
@@ -62,6 +62,7 @@ class MyOIDCAB(OIDCAuthenticationBackend):
 
 
 
+# http://127.0.0.1:8000/oidc/authenticate/
 class CustomLogoutView(View):
     def get(self, request, *args, **kwargs):
 

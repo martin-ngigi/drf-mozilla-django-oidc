@@ -21,3 +21,10 @@ class Customer(models.Model):
 
     def __str__(self):
         return self.id
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name= models.CharField(max_length=200)
+    last_name= models.CharField(max_length=200)
+    email= models.CharField(max_length=100)
+    username= models.CharField(max_length=200)
