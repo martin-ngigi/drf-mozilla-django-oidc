@@ -42,3 +42,18 @@ python3 manage.py migrate
 openssl genrsa -out private_key.pem 2048
 openssl rsa -in private_key.pem -outform PEM -pubout -out public_key.pem
 ```
+
+# To solve Error 400: redirect_uri_mismatch[ Add  url accordingly]
+- Dont forget to add "Authorized JavaScript origins" in [Link](https://console.cloud.google.com/apis/credentials/) 
+```
+http://127.0.0.1:8000
+```
+- Also add "Authorized redirect URI"s in google console
+```
+http://127.0.0.1:8000
+http://127.0.0.1:8000/oidc/callback/
+http://127.0.0.1:8000/accounts/user-infor/
+```
+## Authentication flow: 
+- Login with endpoint http://127.0.0.1:8000/oidc/authenticate/. This will trigger google authentication
+- After google authentication was successful, Google will hit the callback endpoint "http://127.0.0.1:8000/oidc/callback/",  then afterwards, will redirect the user to http://127.0.0.1:8000/accounts/user-infor/, where we have defined the logic for creating the user,

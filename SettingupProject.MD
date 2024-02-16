@@ -26,7 +26,7 @@ python3 manage.py runserver
 ```
 - Create apps
 ```
-python3 manage.py startapp authentication
+python3 manage.py startapp account
 python3 manage.py startapp social_auth
 ```
 

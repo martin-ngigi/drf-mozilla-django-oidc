@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Local Apps
+    'account',
+
     # Third Party Apps
     'rest_framework',
     'mozilla_django_oidc',
@@ -56,6 +59,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
+]
+
 # OIDC Configuration
 OIDC_RP_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 OIDC_RP_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
@@ -63,8 +70,24 @@ OIDC_OP_AUTHORIZATION_ENDPOINT = 'https://accounts.google.com/o/oauth2/auth'
 OIDC_OP_TOKEN_ENDPOINT = 'https://accounts.google.com/o/oauth2/token'
 OIDC_OP_USER_ENDPOINT = 'https://www.googleapis.com/oauth2/v3/userinfo'
 OIDC_RP_SIGN_ALGO = 'RS256'
+OIDC_OP_JWKS_ENDPOINT = 'https://www.googleapis.com/oauth2/v3/certs'
+
 OIDC_USE_NONCE = False 
-EMAIL_HOST = os.getenv("EMAIL_HOST")
+
+# mozilla-django-oidc Settings
+# OIDC_RP_SCOPES = ['openid', 'profile', 'email']
+# mozilla-django-oidc Settings
+OIDC_RP_SCOPES = 'openid profile email'
+
+# Add scopes for getting user information
+# OIDC_AUTH_REQUEST_EXTRA_PARAMS = {
+#     'scope': 'openid email profile'
+# }
+LOGIN_REDIRECT_URL = 'http://127.0.0.1:8000/accounts/user-infor/'
+# LOGIN_REDIRECT_URL = 'http://127.0.0.1:8000/oidc/callback/' # This is the official redirect used by google
+# LOGOUT_REDIRECT_URL = 'http://127.0.0.1:8000/logout'
+LOGIN_URL = 'oidc_login'
+LOGOUT_URL = 'custom_logout'
 
 # Use Django Rest Framework for permissions and authentication
 REST_FRAMEWORK = {
